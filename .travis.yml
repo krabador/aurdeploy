@@ -13,10 +13,13 @@ notifications:
 jobs:
   include:
   - stage: build docker image
-    script: bash ${TRAVIS_BUILD_DIR}/.travis/build-image.sh
+    script:
+    - if [[ ! -d "config" ]]; then exit 1; fi
+    - docker build -t ${TRAVIS_REPO_SLUG} .
 
   - stage: build packages
-    before_install: docker run --name aurdeploy -dt ${TRAVIS_REPO_SLUG} bash
+    before_install:
+    - docker run --name aurdeploy -dt ${TRAVIS_REPO_SLUG} bash
     install:
     - bash ${TRAVIS_BUILD_DIR}/.travis/install.sh
     script:
