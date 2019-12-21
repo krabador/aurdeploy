@@ -16,13 +16,11 @@ jobs:
     script: bash ${TRAVIS_BUILD_DIR}/.travis/build-image.sh
 
   - stage: build packages
-    script: docker run --name aurdeploy -dt ${TRAVIS_REPO_SLUG} bash
-
-install:
-- bash ${TRAVIS_BUILD_DIR}/.travis/install.sh
-
-script:
-- bash ${TRAVIS_BUILD_DIR}/.travis/script.sh
+    before_install: docker run --name aurdeploy -dt ${TRAVIS_REPO_SLUG} bash
+    install:
+    - bash ${TRAVIS_BUILD_DIR}/.travis/install.sh
+    script:
+    - bash ${TRAVIS_BUILD_DIR}/.travis/script.sh
 
 before_deploy:
 - docker cp ${DEPLOY_HOME}/pkg ${TRAVIS_TAG}
