@@ -10,8 +10,13 @@ services:
 notifications:
   email: false
 
-before_install:
-- bash ${TRAVIS_BUILD_DIR}/.travis/before_install.sh
+jobs:
+  include:
+  - stage: build docker image
+    script: bash ${TRAVIS_BUILD_DIR}/.travis/build-image.sh
+
+  - stage: build packages
+    script: docker run --name aurdeploy -dt ${TRAVIS_REPO_SLUG} bash
 
 install:
 - bash ${TRAVIS_BUILD_DIR}/.travis/install.sh
