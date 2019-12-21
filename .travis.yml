@@ -2,7 +2,7 @@ os:       linux
 dist:     bionic
 language: shell
 services: docker
-env:      TRAVIS_TAG="x86_64" DEPLOY_HOME="aurdeploy:/home/aurbuild"
+env:      TRAVIS_TAG="x86_64" REPO_NAME="${TRAVIS_REPO_SLUG#*/}" DEPLOY_HOME="aurdeploy:/home/aurbuild"
 
 notifications:
   email: false
@@ -12,11 +12,15 @@ jobs:
   - stage: build docker image
     script:
     - if [[ ! -d "config" ]]; then exit 1; fi
-    - docker build -t ${TRAVIS_REPO_SLUG} .
+    - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+    - docker build -t ${REPO_NAME} .
+    - docker images
+    - docker tag ${REPO_NAME} ${TRAVIS_REPO_SLUG}
+    - docker push ${TRAVIS_REPO_SLUG}
 
   - stage: build packages
     before_install:
-    - docker run --name aurdeploy -dt ${TRAVIS_REPO_SLUG} bash
+    - docker run --rm --name ${REPO_NAME} -dt ${REPO_NAME} bash
 
     install:
     - bash ${TRAVIS_BUILD_DIR}/.travis/install.sh
@@ -39,9 +43,8 @@ jobs:
         condition: ${DEPLOY_GITHUB} != 0
 
     - provider: script
-      script: docker exec aurdeploy bash sftp.sh
+      script: docker exec ${REPO_NAME} bash sftp.sh
               ${SFTP_USER} ${SFTP_HOST} ${SFTP_PASS} ${SFTP_DIR} ${TRAVIS_TAG}
-    # overwrite: true
       skip_cleanup: true
       on:
         branch: ${DEPLOY_BRANCH}
