@@ -1,7 +1,22 @@
-wine-staging
-mingw-w64-binutils
-mingw-w64-crt
-mingw-w64-gcc
-mingw-w64-headers
-mingw-w64-pkg-config
-mingw-w64-winpthreads
+# elflibviewer
+cmake
+qt5-base
+
+# nuovext-icon-theme
+gtk-update-icon-cache
+
+# geany-plugin-editorconfig
+editorconfig-core-c
+geany>=134
+
+# geany-plugin-markdown
+intltool
+vala
+gdb
+cppcheck
+discount
+webkit2gtk
+
+# gtk-theme-glossyblack
+gtk-engine-murrine
+gtk-engines
