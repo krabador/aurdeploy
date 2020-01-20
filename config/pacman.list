@@ -7,7 +7,7 @@ gtk-update-icon-cache
 
 # geany-plugin-editorconfig
 editorconfig-core-c
-geany>=134
+geany
 
 # geany-plugin-markdown
 intltool
