@@ -25,7 +25,7 @@ If using another webserver you'll need to point it to the built `_site` director
 - For further information please refer to the [Jekyll manual].
 
 
-[AUR Deploy]:    https://archlive.github.io/aur/
+[AUR Deploy]:    https://redtide.github.io/aurdeploy/
 [Jekyll]:        https://jekyllrb.com/
 [Jekyll manual]: https://jekyllrb.com/docs/
 [ruby]:          https://www.ruby-lang.org/en/
